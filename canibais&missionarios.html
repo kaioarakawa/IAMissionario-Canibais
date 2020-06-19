@@ -191,25 +191,32 @@ isStateValid = (state, vector) => {
   return (existInVector == null && ((canLft <= misLft) || (canLft - misLft == canLft)) && ((canRgt <= misRgt) || (canRgt - misRgt == canRgt)));
 }
 
-start = _ => {
-  let rootNode = getNode(startState, false, null);
-  ansVet = [rootNode.state];
-  dfs(rootNode);
+beginGame = _ => {
+  let DeepNode = getNode(startState, false, null);
+  ansVet = [DeepNode.state];
+  dfs(DeepNode);
 }
 
 dfs = node => {
   if (node.state.l.c == endState.l.c && node.state.l.m == endState.l.m) {
     let aux = node;
     let answer = [];
+    
     console.log("RESPOSTA: ");
     while (aux != null) {
       aux && answer.push(aux);
       aux = aux.parent;
     }
+    var a;
     for (let i = (answer.length - 1); i >= 0; i--) {
       aux = answer[i];
       aux && console.log("Margem Esq: ", aux.state.l, "  Margem Dir: ", aux.state.r, "Lado Barco: " + (aux.state.side ? "Dir" : "Esq"));
+      a += "Margem Esq: "+ "c:" + aux.state.l.c + " m:" + aux.state.l.m + "------------Margem Dir: " + "c:" + aux.state.r.c + "m:" +aux.state.r.m + "----------Lado Barco: " + (aux.state.side ? " Dir" : "Esq") + "\n";
+      
     }
+
+    document.getElementById("reposta").innerText = a;
+
     return 0;
   }
 
@@ -235,4 +242,10 @@ dfs = node => {
   }
   return 1;
 }
+
 </script>
+
+<html>
+  <p id="reposta"></p>
+  <button id="go" onclick="beginGame()">Go</button>
+</html>
